@@ -45,6 +45,11 @@
             this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.BackPropStepButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button16 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Button1
@@ -56,7 +61,7 @@
             this.Button1.TabIndex = 0;
             this.Button1.Text = "1";
             this.Button1.UseVisualStyleBackColor = false;
-            this.Button1.Click += new System.EventHandler(this.buttonsEventHandler);
+            this.Button1.Click += new System.EventHandler(this.ButtonsEventHandler);
             // 
             // label1
             // 
@@ -215,11 +220,60 @@
             this.label2.TabIndex = 16;
             this.label2.Text = "label2";
             // 
+            // BackPropStepButton
+            // 
+            this.BackPropStepButton.Location = new System.Drawing.Point(12, 354);
+            this.BackPropStepButton.Name = "BackPropStepButton";
+            this.BackPropStepButton.Size = new System.Drawing.Size(156, 38);
+            this.BackPropStepButton.TabIndex = 17;
+            this.BackPropStepButton.Text = "BackProp Step";
+            this.BackPropStepButton.UseVisualStyleBackColor = true;
+            this.BackPropStepButton.Click += new System.EventHandler(this.BackPropStepButton_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(12, 326);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(156, 22);
+            this.textBox1.TabIndex = 18;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(199, 325);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(309, 23);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "label3";
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(199, 365);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(94, 20);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "label4";
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(12, 398);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(156, 40);
+            this.button16.TabIndex = 21;
+            this.button16.Text = "Fit";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
             // MainWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 484);
+            this.Controls.Add(this.button16);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.BackPropStepButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.button14);
@@ -243,6 +297,16 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.Button button16;
+
+        private System.Windows.Forms.Label label4;
+
+        private System.Windows.Forms.Label label3;
+
+        private System.Windows.Forms.TextBox textBox1;
+
+        private System.Windows.Forms.Button BackPropStepButton;
 
         private System.Windows.Forms.Label label2;
 

@@ -2,11 +2,23 @@
 
 namespace NeuralDigitRecognizer.Neural.Core
 {
+    public class Activation: Tuple<Func<double, double>, Func<double, double>>
+    {
+        public Func<double, double> Transformation { get; private set; }
+        public Func<double, double> Derivative { get; private set; }
+
+        public Activation(Func<double, double> item1, Func<double, double> item2) : base(item1, item2)
+        {
+            Transformation = item1;
+            Derivative = item2;
+        }
+    }
+    
     public static class ActivationFunctions
     {
-        public static readonly Func<double, double> AllPass = (x => x);
+        public static readonly Activation AllPass = new Activation(x => x, x => 1);
         
-        public static readonly Func<double, Func<double, double>> Custom = angleTan =>
+        public static readonly Func<double, Activation> Custom = angleTan =>
         {
             double Transformation(double x)
             {
@@ -14,16 +26,23 @@ namespace NeuralDigitRecognizer.Neural.Core
                 {
                     return x;
                 }
-
                 if (x < -1)
                 {
                     return angleTan * x - (1 - angleTan);
                 }
-
                 return angleTan * x + (1 - angleTan);
             }
 
-            return Transformation;
+            double Derivative(double x)
+            {
+                if (Math.Abs(x) <= 1)
+                {
+                    return 1;
+                }
+                return angleTan;
+            }
+
+            return new Activation(Transformation, Derivative);
         };
 
         public static Func<double, double> Threshold = x => x >= 0 ? 1 : 0;

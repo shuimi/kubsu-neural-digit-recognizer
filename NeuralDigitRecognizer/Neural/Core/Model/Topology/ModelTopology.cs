@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using NeuralDigitRecognizer.Neural.Core.Model;
 
-namespace NeuralDigitRecognizer.Neural.Core
+namespace NeuralDigitRecognizer.Neural.Core.Model.Topology
 {
     public class Topology
     {

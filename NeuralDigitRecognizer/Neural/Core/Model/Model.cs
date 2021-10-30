@@ -1,21 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NeuralDigitRecognizer.Neural.Core.Layers;
+using NeuralDigitRecognizer.Neural.Core.Layers.Base;
+using NeuralDigitRecognizer.Neural.Core.Optimizers;
 
 namespace NeuralDigitRecognizer.Neural.Core.Model
 {
     public class Model
     {
-        public Topology Topology { get; }
+        public Topology.Topology Topology { get; }
         public List<Layer> Layers { get;  } = new List<Layer>();
+        
+        public Optimizer Optimizer { get; internal set; }
 
-        public Model(Topology topology)
+        public Model(Topology.Topology topology, Optimizer optimizer)
         {
+            Optimizer = optimizer;
             Topology = topology;
 
             CreateInputLayer();
             CreateHiddenLayer();
             CreateOutputLayer();
+        }
+
+        public double Fit(Dataset dataset, int epochs)
+        {
+            var error = 0d;
+
+            foreach (var sample in dataset.Samples)
+            {
+                error += BackProp(sample.Item2, sample.Item1);
+            }
+
+            return error / epochs;
+        }
+
+        public double BackProp(List<double> expectation, List<double> inputs)
+        {
+            var prediction = FeedForward(inputs);
+            var error = Loss(prediction, expectation);
+
+            foreach (var neuron in Layers.Last().Neurons)
+            {
+                neuron.BackProp(error, Optimizer);
+            }
+
+            for (var j = Layers.Count - 2; j >= 0; j--)
+            {
+                var layer = Layers[j];
+                var prevLayer = Layers[j + 1];
+
+                for (var i = 0; i < layer.LayerSize; i++)
+                {
+                    var neuron = layer.Neurons[i];
+
+                    for (var l = 0; l < prevLayer.LayerSize; l++)
+                    {
+                        var prevNeuron = prevLayer.Neurons[l];
+                        var diff = prevNeuron.Weights[i] * prevNeuron.Delta;
+                        
+                        neuron.BackProp(diff, Optimizer);
+                    }
+                }
+            }
+            
+            return error * error;
+        }
+        
+        private double Loss(List<double> prediction, List<double> expectation)
+        {
+            if (prediction.Count != expectation.Count)
+            {
+                throw new Exception($"Prediction and expectation dimensions is not equal: " +
+                                    $"got {prediction.Count} and {expectation.Count}");
+            }
+            var sum = prediction.Select((val, index) => Math.Pow(val - expectation[index], 2)).Sum();
+
+            return 0.5 * sum;
         }
         
         public List<double> FeedForward(List<double> inputSignals)

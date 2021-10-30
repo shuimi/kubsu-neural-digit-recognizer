@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace NeuralDigitRecognizer.Neural.Core
+namespace NeuralDigitRecognizer.Neural.Core.Layers.Base
 {
     public abstract class Layer
     {
@@ -25,20 +25,15 @@ namespace NeuralDigitRecognizer.Neural.Core
 
         public List<double> Signals()
         {
-            var result = new List<double>();
-            foreach (var neuron in Neurons)
-            {
-                result.Add(neuron.Output);
-            }
-            return result;
+            return Neurons.Select(neuron => neuron.Output).ToList();
         }
 
-        void LoadWeights()
+        public void LoadWeights()
         {
             //TODO: implement
         }
 
-        void ExportWeights()
+        public void ExportWeights()
         {
             //TODO: implement
         }

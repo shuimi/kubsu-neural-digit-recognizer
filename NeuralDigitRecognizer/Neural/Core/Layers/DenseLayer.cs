@@ -1,6 +1,7 @@
-﻿using NeuralDigitRecognizer.Neural.Core.Model;
+﻿using NeuralDigitRecognizer.Neural.Core.Layers.Base;
+using NeuralDigitRecognizer.Neural.Core.Model;
 
-namespace NeuralDigitRecognizer.Neural.Core
+namespace NeuralDigitRecognizer.Neural.Core.Layers
 {
     public class DenseLayer : Layer
     {
@@ -8,7 +9,7 @@ namespace NeuralDigitRecognizer.Neural.Core
         {
             for (var i = 0; i < topology.LayerSize; i++)
             {
-                var neuron = new Neuron(0.0, topology.ActivationFunction);
+                var neuron = new Neuron(topology.ActivationFunction);
                 neuron.RandomWeights(prevLayer.LayerSize);
                 neuron.NormalizeWeights();
                 

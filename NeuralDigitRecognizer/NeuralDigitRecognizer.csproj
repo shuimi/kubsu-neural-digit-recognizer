@@ -46,13 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Neural\Core\ActivationFunctions.cs" />
+    <Compile Include="Neural\Core\Dataset.cs" />
     <Compile Include="Neural\Core\Layers\Base\Layer.cs" />
     <Compile Include="Neural\Core\Layers\DenseLayer.cs" />
     <Compile Include="Neural\Core\Layers\InputLayer.cs" />
@@ -61,10 +62,12 @@
     <Compile Include="Neural\Core\Model\Topology\LayerTopology.cs" />
     <Compile Include="Neural\Core\Model\Topology\ModelTopology.cs" />
     <Compile Include="Neural\Core\Neuron.cs" />
+    <Compile Include="Neural\Core\Optimizers\Base\Optimizer.cs" />
+    <Compile Include="Neural\Core\Optimizers\SGD.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -5,9 +5,9 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
     public class LayerTopology
     {
         public int LayerSize { get; }
-        public Func<double, double> ActivationFunction { get; }
+        public Activation ActivationFunction { get; }
 
-        public LayerTopology(int layerSize, Func<double, double> activationFunction)
+        public LayerTopology(int layerSize, Activation activationFunction)
         {
             LayerSize = layerSize;
             ActivationFunction = activationFunction;

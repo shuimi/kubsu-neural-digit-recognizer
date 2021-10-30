@@ -1,6 +1,7 @@
-﻿using static NeuralDigitRecognizer.Neural.Core.ActivationFunctions;
+﻿using NeuralDigitRecognizer.Neural.Core.Layers.Base;
+using static NeuralDigitRecognizer.Neural.Core.ActivationFunctions;
 
-namespace NeuralDigitRecognizer.Neural.Core
+namespace NeuralDigitRecognizer.Neural.Core.Layers
 {
     public class OutputLayer: Layer
     {
@@ -8,7 +9,7 @@ namespace NeuralDigitRecognizer.Neural.Core
         {
             for (var i = 0; i < dimension; i++)
             {
-                var neuron = new Neuron(0.0, AllPass);
+                var neuron = new Neuron(AllPass);
                 neuron.RandomWeights(prevLayer.LayerSize);
                 neuron.NormalizeWeights();
                 
