@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using NeuralDigitRecognizer.Neural.Core;
 using NeuralDigitRecognizer.Neural.Core.Model;
@@ -59,7 +60,7 @@ namespace NeuralDigitRecognizer
             button15.Click += ButtonsEventHandler;
 
             
-            var activation = Custom(0.1);
+            var activation = Sigmoid(1);
 
             var inputSamples = new List<List<double>>()
             {
@@ -195,10 +196,10 @@ namespace NeuralDigitRecognizer
                 new Topology(
                     15, 
                     10, 
-                    new LayerTopology(77, activation), 
+                    new LayerTopology(77, activation),
                     new LayerTopology(34, activation)
                 ),
-                new SGD(0.00001, 0.5)
+                new SGD(0.01, 0.5)
             );
 
         }
@@ -237,7 +238,7 @@ namespace NeuralDigitRecognizer
                 _buttons[buttonIndex].BackColor = Color.FromArgb(239, 253, 255);
             }
 
-            var prediction = _model.FeedForward(new List<double>(_buttonsState));
+            var prediction = _model.FeedForward(new List<double>(_buttonsState)).Select(value=>Math.Round(value, 4));
             label2.Text = String.Join(Environment.NewLine, prediction);
 
         }
@@ -276,9 +277,20 @@ namespace NeuralDigitRecognizer
             label3.Text = string.Join(" ", ExpectedSignal);
         }
 
+        private void Fit()
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                var loss = Math.Round(_model.Fit(_dataset), 8);
+                label4.Text = loss.ToString(CultureInfo.InvariantCulture);
+                if (loss < 0.001) break;
+            }
+        }
+
         private void button16_Click(object sender, EventArgs e)
         {
-            label4.Text = _model.Fit(_dataset, 10000).ToString(CultureInfo.InvariantCulture);
+            var thread2 = new Thread(Fit);
+            thread2.Start();
         }
     }
 }

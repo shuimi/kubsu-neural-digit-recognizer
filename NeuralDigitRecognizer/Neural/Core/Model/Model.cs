@@ -24,7 +24,7 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
             CreateOutputLayer();
         }
 
-        public double Fit(Dataset dataset, int epochs)
+        public double Fit(Dataset dataset)
         {
             var error = 0d;
 
@@ -33,17 +33,18 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
                 error += BackProp(sample.Item2, sample.Item1);
             }
 
-            return error / epochs;
+            return error;
         }
 
         public double BackProp(List<double> expectation, List<double> inputs)
         {
             var prediction = FeedForward(inputs);
-            var error = Loss(prediction, expectation);
-
-            foreach (var neuron in Layers.Last().Neurons)
+            var lastLayer = Layers.Last().Neurons;
+            
+            for (var i = 0; i < prediction.Count; i++)
             {
-                neuron.BackProp(error, Optimizer);
+                var error = expectation[i] - prediction[i];
+                lastLayer[i].BackProp(error, Optimizer);
             }
 
             for (var j = Layers.Count - 2; j >= 0; j--)
@@ -53,19 +54,19 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
 
                 for (var i = 0; i < layer.LayerSize; i++)
                 {
-                    var neuron = layer.Neurons[i];
-
+                    var diff = 0d;
+                    
                     for (var l = 0; l < prevLayer.LayerSize; l++)
                     {
                         var prevNeuron = prevLayer.Neurons[l];
-                        var diff = prevNeuron.Weights[i] * prevNeuron.Delta;
-                        
-                        neuron.BackProp(diff, Optimizer);
+                        diff += prevNeuron.Weights[i] * prevNeuron.Delta;
                     }
+                    
+                    layer.Neurons[i].BackProp(diff, Optimizer);
                 }
             }
             
-            return error * error;
+            return Loss(prediction, expectation);
         }
         
         private double Loss(List<double> prediction, List<double> expectation)
@@ -77,7 +78,7 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
             }
             var sum = prediction.Select((val, index) => Math.Pow(val - expectation[index], 2)).Sum();
 
-            return 0.5 * sum;
+            return Math.Sqrt(sum) ;
         }
         
         public List<double> FeedForward(List<double> inputSignals)

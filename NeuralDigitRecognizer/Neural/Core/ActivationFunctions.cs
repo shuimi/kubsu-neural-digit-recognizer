@@ -56,14 +56,19 @@ namespace NeuralDigitRecognizer.Neural.Core
             return 0;
         };
         
-        public static Func<double, Func<double, double>> Sigmoid = a =>
+        public static Func<double, Activation> Sigmoid = a =>
         {
             double Transformation(double x)
             {
                 return 1 / (1 + Math.Exp(-a * x));
             }
-
-            return Transformation;
+            
+            double Derivative(double x)
+            {
+                return Transformation(x) * (1 - Transformation(x));
+            }
+            
+            return new Activation(Transformation, Derivative);
         };
 
         public static Func<double, double> Sgn = x =>

@@ -16,6 +16,7 @@ namespace NeuralDigitRecognizer.Neural.Core
         public List<double> Inputs { get; private set; }
         public double Output { get; private set; }
         
+        public double InducedField { get; private set; }
         public double Delta { get; private set; }
         
         private static readonly Random Random = new Random();
@@ -29,13 +30,13 @@ namespace NeuralDigitRecognizer.Neural.Core
 
         public void BackProp(double error, Optimizer optimizer)
         {
-            Delta = error * ActivationFunction.Derivative(Output);
+            Delta = error * ActivationFunction.Derivative(InducedField);
             
-            for (var i = 0; i < InputDimension; i++)
+            Weights[0] += optimizer.LearningRate * Delta;
+            
+            for (var i = 1; i < InputDimension; i++)
             {
-                var updatedWeight = Weights[i] - Inputs[i] * Delta * optimizer.LearningRate;
-
-                Weights[i] = updatedWeight;
+                Weights[i] += Inputs[i] * Delta * optimizer.LearningRate;
             }
         }
 
@@ -49,7 +50,8 @@ namespace NeuralDigitRecognizer.Neural.Core
 
             var sum = input.Select((val, index) => val * Weights[index]).Sum();
 
-            Output = ActivationFunction.Transformation(sum);
+            InducedField = sum;
+            Output = ActivationFunction.Transformation(InducedField);
             return Output;
         }
 
