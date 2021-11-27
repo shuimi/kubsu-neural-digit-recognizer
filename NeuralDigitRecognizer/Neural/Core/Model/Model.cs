@@ -10,8 +10,8 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
     public class Model
     {
         public Topology.Topology Topology { get; }
-        public List<Layer> Layers { get;  } = new List<Layer>();
-        
+        public List<Layer> Layers { get; } = new List<Layer>();
+
         public Optimizer Optimizer { get; internal set; }
 
         public Model(Topology.Topology topology, Optimizer optimizer)
@@ -59,15 +59,15 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
                     {
                         var prevNeuron = prevLayer.Neurons[l];
                         var diff = prevNeuron.Weights[i] * prevNeuron.Delta;
-                        
+
                         neuron.BackProp(diff, Optimizer);
                     }
                 }
             }
-            
+
             return error * error;
         }
-        
+
         private double Loss(List<double> prediction, List<double> expectation)
         {
             if (prediction.Count != expectation.Count)
@@ -75,18 +75,19 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
                 throw new Exception($"Prediction and expectation dimensions is not equal: " +
                                     $"got {prediction.Count} and {expectation.Count}");
             }
+
             var sum = prediction.Select((val, index) => Math.Pow(val - expectation[index], 2)).Sum();
 
             return 0.5 * sum;
         }
-        
+
         public List<double> FeedForward(List<double> inputSignals)
         {
             if (inputSignals.Count != Layers.First().LayerSize)
             {
                 throw new Exception(
-                    "Incorrect input dimension, expected " + Layers.First().LayerSize 
-                    + ", but got " + inputSignals.Count + "."
+                    "Incorrect input dimension, expected " + Layers.First().LayerSize
+                                                           + ", but got " + inputSignals.Count + "."
                 );
             }
 
@@ -112,9 +113,9 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
 
         private void SendSignalsToInputNeurons(List<double> inputSignals)
         {
-            for (var i = 0 ; i < inputSignals.Count; i++)
+            for (var i = 0; i < inputSignals.Count; i++)
             {
-                var signal = new List<double>() { inputSignals[i] };
+                var signal = new List<double>() {inputSignals[i]};
                 var neuron = Layers.First().Neurons[i];
                 neuron.FeedForward(signal);
             }
@@ -130,16 +131,15 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
         {
             foreach (var layerTopology in Topology.HiddenLayers)
             {
-                var denseLayer = new DenseLayer(layerTopology, Layers.Last());  
+                var denseLayer = new DenseLayer(layerTopology, Layers.Last());
                 Layers.Add(denseLayer);
             }
         }
-        
+
         private void CreateOutputLayer()
         {
             var outputLayer = new OutputLayer(Topology.OutputDimension, Layers.Last());
             Layers.Add(outputLayer);
         }
-
     }
 }

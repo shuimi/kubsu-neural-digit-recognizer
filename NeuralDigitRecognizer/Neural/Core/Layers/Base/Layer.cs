@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace NeuralDigitRecognizer.Neural.Core.Layers.Base
 {
@@ -16,6 +21,15 @@ namespace NeuralDigitRecognizer.Neural.Core.Layers.Base
                 Neurons.ForEach(neuron => matrix.Add(neuron.Weights));
                 return matrix;
             }
+            set
+            {
+                int valueNum = 0;
+                foreach (var neuron in Neurons)
+                {
+                    neuron.Inputs = value[valueNum];
+                    valueNum++;
+                }
+            }
         }
 
         protected Layer()
@@ -28,15 +42,24 @@ namespace NeuralDigitRecognizer.Neural.Core.Layers.Base
             return Neurons.Select(neuron => neuron.Output).ToList();
         }
 
-        public void LoadWeights()
+        public void LoadWeights(List<List<double>> weights)
         {
             //TODO: implement
+            WeightsMatrix = weights;
         }
 
-        public void ExportWeights()
+        public double[][] ExportWeights()
         {
-            //TODO: implement
+            var w = new double[WeightsMatrix.Count][];
+            for (int i = 0; i < WeightsMatrix.Count; i++)
+            {
+                w[i] = new double[WeightsMatrix[i].Count];
+                for (int j = 0; j < WeightsMatrix[i].Count; j++)
+                {
+                    w[i][j] = WeightsMatrix[i][j];
+                }
+            }
+            return w;
         }
-        
     }
 }
