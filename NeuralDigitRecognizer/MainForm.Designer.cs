@@ -17,7 +17,6 @@
             {
                 components.Dispose();
             }
-
             base.Dispose(disposing);
         }
 
@@ -55,6 +54,8 @@
             this.button18 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // Button1
@@ -296,11 +297,21 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             // this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(323, 28);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(336, 208);
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // MainWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 484);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button18);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.button16);
@@ -328,6 +339,7 @@
             this.Name = "MainWindowForm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -338,6 +350,8 @@
         private System.Windows.Forms.Button button18;
 
         private System.Windows.Forms.Button button17;
+
+        private System.Windows.Forms.PictureBox pictureBox1;
 
         private System.Windows.Forms.Button button16;
 
@@ -371,3 +385,4 @@
         private System.Windows.Forms.Button button15;
     }
 }
+

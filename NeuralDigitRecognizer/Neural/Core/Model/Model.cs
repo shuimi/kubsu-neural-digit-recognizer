@@ -24,7 +24,7 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
             CreateOutputLayer();
         }
 
-        public double Fit(Dataset dataset, int epochs)
+        public double Fit(Dataset dataset)
         {
             var error = 0d;
 
@@ -33,17 +33,18 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
                 error += BackProp(sample.Item2, sample.Item1);
             }
 
-            return error / epochs;
+            return error;
         }
 
         public double BackProp(List<double> expectation, List<double> inputs)
         {
             var prediction = FeedForward(inputs);
-            var error = Loss(prediction, expectation);
-
-            foreach (var neuron in Layers.Last().Neurons)
+            var lastLayer = Layers.Last().Neurons;
+            
+            for (var i = 0; i < prediction.Count; i++)
             {
-                neuron.BackProp(error, Optimizer);
+                var error = expectation[i] - prediction[i];
+                lastLayer[i].BackProp(error, Optimizer);
             }
 
             for (var j = Layers.Count - 2; j >= 0; j--)
@@ -53,21 +54,21 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
 
                 for (var i = 0; i < layer.LayerSize; i++)
                 {
-                    var neuron = layer.Neurons[i];
-
+                    var diff = 0d;
+                    
                     for (var l = 0; l < prevLayer.LayerSize; l++)
                     {
                         var prevNeuron = prevLayer.Neurons[l];
-                        var diff = prevNeuron.Weights[i] * prevNeuron.Delta;
-
-                        neuron.BackProp(diff, Optimizer);
+                        diff += prevNeuron.Weights[i] * prevNeuron.Delta;
                     }
+                    
+                    layer.Neurons[i].BackProp(diff, Optimizer);
                 }
             }
-
-            return error * error;
+            
+            return Loss(prediction, expectation);
         }
-
+        
         private double Loss(List<double> prediction, List<double> expectation)
         {
             if (prediction.Count != expectation.Count)
@@ -75,19 +76,18 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
                 throw new Exception($"Prediction and expectation dimensions is not equal: " +
                                     $"got {prediction.Count} and {expectation.Count}");
             }
-
             var sum = prediction.Select((val, index) => Math.Pow(val - expectation[index], 2)).Sum();
 
-            return 0.5 * sum;
+            return Math.Sqrt(sum) ;
         }
-
+        
         public List<double> FeedForward(List<double> inputSignals)
         {
             if (inputSignals.Count != Layers.First().LayerSize)
             {
                 throw new Exception(
-                    "Incorrect input dimension, expected " + Layers.First().LayerSize
-                                                           + ", but got " + inputSignals.Count + "."
+                    "Incorrect input dimension, expected " + Layers.First().LayerSize 
+                    + ", but got " + inputSignals.Count + "."
                 );
             }
 
@@ -113,9 +113,9 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
 
         private void SendSignalsToInputNeurons(List<double> inputSignals)
         {
-            for (var i = 0; i < inputSignals.Count; i++)
+            for (var i = 0 ; i < inputSignals.Count; i++)
             {
-                var signal = new List<double>() {inputSignals[i]};
+                var signal = new List<double>() { inputSignals[i] };
                 var neuron = Layers.First().Neurons[i];
                 neuron.FeedForward(signal);
             }
@@ -131,15 +131,16 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
         {
             foreach (var layerTopology in Topology.HiddenLayers)
             {
-                var denseLayer = new DenseLayer(layerTopology, Layers.Last());
+                var denseLayer = new DenseLayer(layerTopology, Layers.Last());  
                 Layers.Add(denseLayer);
             }
         }
-
+        
         private void CreateOutputLayer()
         {
             var outputLayer = new OutputLayer(Topology.OutputDimension, Layers.Last());
             Layers.Add(outputLayer);
         }
+
     }
 }
