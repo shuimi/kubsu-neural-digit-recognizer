@@ -194,12 +194,12 @@ namespace NeuralDigitRecognizer
             
             _model = new Model(
                 new Topology(
-                    15, 
-                    10, 
+                    15,
+                    10,
                     new LayerTopology(77, activation),
                     new LayerTopology(34, activation)
                 ),
-                new SGD(0.01, 0.5)
+                new SGD(0.01, 0.3)
             );
 
         }
@@ -283,7 +283,7 @@ namespace NeuralDigitRecognizer
             {
                 var loss = Math.Round(_model.Fit(_dataset), 8);
                 label4.Text = loss.ToString(CultureInfo.InvariantCulture);
-                if (loss < 0.001) break;
+                if (loss < 0.0001) break;
             }
         }
 
@@ -291,6 +291,11 @@ namespace NeuralDigitRecognizer
         {
             var thread2 = new Thread(Fit);
             thread2.Start();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
