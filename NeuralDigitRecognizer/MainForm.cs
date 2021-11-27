@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using NeuralDigitRecognizer.Neural.Core;
 using NeuralDigitRecognizer.Neural.Core.Model;
 using NeuralDigitRecognizer.Neural.Core.Model.Topology;
@@ -238,7 +241,7 @@ namespace NeuralDigitRecognizer
             }
 
             var prediction = _model.FeedForward(new List<double>(_buttonsState));
-            label2.Text = String.Join(Environment.NewLine, prediction);
+            label2.Text = String.Join(Environment.NewLine, prediction.Select(value => Math.Round(value, 4)));
 
         }
 
@@ -399,6 +402,10 @@ namespace NeuralDigitRecognizer
         private void button18_Click_1(object sender, EventArgs e)
         {
             Import();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
         }
     }
 }
