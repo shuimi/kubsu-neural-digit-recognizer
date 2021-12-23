@@ -61,7 +61,7 @@ namespace NeuralDigitRecognizer
             button14.Click += ButtonsEventHandler;
             button15.Click += ButtonsEventHandler;
 
-            
+
             var activation = Sigmoid(1);
 
             var inputSamples = new List<List<double>>()
@@ -129,7 +129,7 @@ namespace NeuralDigitRecognizer
                     0, 0, 1,
                     0, 0, 1,
                     0, 0, 1
-                },                
+                },
                 new List<double>()
                 {
                     1, 1, 1,
@@ -193,7 +193,7 @@ namespace NeuralDigitRecognizer
             };
 
             _dataset = new Dataset(inputSamples, outputSamples);
-            
+
             _model = new Model(
                 new Topology(
                     15,
@@ -203,10 +203,9 @@ namespace NeuralDigitRecognizer
                 ),
                 new SGD(0.01, 0.3)
             );
-
         }
 
-        private void SetButtonState(int index, double state) 
+        private void SetButtonState(int index, double state)
         {
             if (index < 0 || index > ButtonsAmount)
             {
@@ -219,7 +218,6 @@ namespace NeuralDigitRecognizer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void ButtonsEventHandler(object sender, EventArgs e)
@@ -234,7 +232,7 @@ namespace NeuralDigitRecognizer
                 SetButtonState(buttonIndex, 1.0);
                 _buttons[buttonIndex].BackColor = Color.FromArgb(117, 153, 255);
             }
-            else 
+            else
             {
                 SetButtonState(buttonIndex, 0.0);
                 _buttons[buttonIndex].BackColor = Color.FromArgb(239, 253, 255);
@@ -242,14 +240,13 @@ namespace NeuralDigitRecognizer
 
             var prediction = _model.FeedForward(new List<double>(_buttonsState));
             label2.Text = String.Join(Environment.NewLine, prediction.Select(value => Math.Round(value, 4)));
-
         }
 
         private void BackPropStepButton_Click(object sender, EventArgs e)
         {
             var err = _model.BackProp(ExpectedSignal, new List<double>(_buttonsState));
             label4.Text = err.ToString(CultureInfo.InvariantCulture);
-            
+
             var prediction = _model.FeedForward(new List<double>(_buttonsState));
             label2.Text = string.Join(Environment.NewLine, prediction);
         }
@@ -263,19 +260,19 @@ namespace NeuralDigitRecognizer
             {
                 ExpectedSignal.Add(0d);
             }
-            
+
             var index = 0;
 
             if (textBox?.Text != string.Empty)
             {
                 index = Convert.ToInt32(textBox?.Text ?? string.Empty);
             }
-            
+
             if (Math.Abs(index) <= ExpectedSignal.Count)
             {
                 ExpectedSignal[index] = 1d;
             }
-            
+
             // label3.Text = string.Join(" ", ExpectedSignal);
         }
 
@@ -424,6 +421,52 @@ namespace NeuralDigitRecognizer
         }
 
         private void label2_Click_1(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void label4_Click_1(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void LearningRateTextChanged()
+        {
+            try
+            {
+                _model.Optimizer.LearningRate = double.Parse(textBox1.Text, CultureInfo.InvariantCulture);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            label5.Text = _model.Optimizer.LearningRate.ToString();
+        }
+
+        private void InertiaCoefficientTextChanged()
+        {
+            try
+            {
+                _model.Optimizer.InertiaCoefficient = double.Parse(textBox2.Text, CultureInfo.InvariantCulture);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            label3.Text = _model.Optimizer.InertiaCoefficient.ToString();
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            LearningRateTextChanged();
+            InertiaCoefficientTextChanged();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
             throw new System.NotImplementedException();
         }
