@@ -214,7 +214,7 @@ namespace NeuralDigitRecognizer
             }
 
             _buttonsState[index] = state;
-            label1.Text = _buttonsState.Aggregate("", (current, next) => current + (next + " "));
+            // label1.Text = _buttonsState.Aggregate("", (current, next) => current + (next + " "));
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -276,7 +276,7 @@ namespace NeuralDigitRecognizer
                 ExpectedSignal[index] = 1d;
             }
             
-            label3.Text = string.Join(" ", ExpectedSignal);
+            // label3.Text = string.Join(" ", ExpectedSignal);
         }
 
         private void Fit()
@@ -416,6 +416,16 @@ namespace NeuralDigitRecognizer
 
         private void chart1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

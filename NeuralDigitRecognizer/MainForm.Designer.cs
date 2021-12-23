@@ -2,15 +2,8 @@
 {
     partial class MainWindowForm
     {
-        /// <summary>
-        /// Обязательная переменная конструктора.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Освободить все используемые ресурсы.
-        /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -29,10 +22,8 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.Button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -49,8 +40,6 @@
             this.button15 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.BackPropStepButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button16 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
@@ -59,8 +48,9 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.label1 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize) (this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // Button1
@@ -74,16 +64,6 @@
             this.Button1.Text = "1";
             this.Button1.UseVisualStyleBackColor = false;
             this.Button1.Click += new System.EventHandler(this.ButtonsEventHandler);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(149, 23);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
             // 
             // button2
             // 
@@ -241,54 +221,38 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(149, 67);
+            this.label2.Location = new System.Drawing.Point(156, 98);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(223, 150);
+            this.label2.Size = new System.Drawing.Size(59, 155);
             this.label2.TabIndex = 16;
-            this.label2.Text = "label2";
+            this.label2.Text = "Prediction\r\n probability";
+            this.label2.Click += new System.EventHandler(this.label2_Click_1);
             // 
             // BackPropStepButton
             // 
-            this.BackPropStepButton.Location = new System.Drawing.Point(9, 288);
+            this.BackPropStepButton.BackColor = System.Drawing.SystemColors.Desktop;
+            this.BackPropStepButton.Location = new System.Drawing.Point(9, 229);
             this.BackPropStepButton.Margin = new System.Windows.Forms.Padding(2);
             this.BackPropStepButton.Name = "BackPropStepButton";
             this.BackPropStepButton.Size = new System.Drawing.Size(117, 31);
             this.BackPropStepButton.TabIndex = 17;
             this.BackPropStepButton.Text = "BackProp Step";
-            this.BackPropStepButton.UseVisualStyleBackColor = true;
+            this.BackPropStepButton.UseVisualStyleBackColor = false;
             this.BackPropStepButton.Click += new System.EventHandler(this.BackPropStepButton_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(9, 265);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(118, 20);
-            this.textBox1.TabIndex = 18;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(149, 264);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(232, 19);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "label3";
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(149, 297);
+            this.label4.Location = new System.Drawing.Point(11, 320);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 16);
             this.label4.TabIndex = 20;
-            this.label4.Text = "label4";
+            this.label4.Text = "Loss";
             // 
             // button16
             // 
-            this.button16.Location = new System.Drawing.Point(9, 323);
+            this.button16.Location = new System.Drawing.Point(9, 264);
             this.button16.Margin = new System.Windows.Forms.Padding(2);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(117, 32);
@@ -300,7 +264,7 @@
             // button17
             // 
             this.button17.BackColor = System.Drawing.Color.White;
-            this.button17.Location = new System.Drawing.Point(215, 264);
+            this.button17.Location = new System.Drawing.Point(445, 342);
             this.button17.Margin = new System.Windows.Forms.Padding(2);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(62, 39);
@@ -312,7 +276,7 @@
             // button18
             // 
             this.button18.BackColor = System.Drawing.Color.White;
-            this.button18.Location = new System.Drawing.Point(290, 264);
+            this.button18.Location = new System.Drawing.Point(526, 342);
             this.button18.Margin = new System.Windows.Forms.Padding(2);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(62, 39);
@@ -327,7 +291,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(215, 315);
+            this.pictureBox1.Location = new System.Drawing.Point(9, 342);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(87, 40);
@@ -337,35 +301,41 @@
             // 
             // chart1
             // 
+            this.chart1.BackColor = System.Drawing.Color.Silver;
+            this.chart1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.DiagonalRight;
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(215, 19);
+            this.chart1.Location = new System.Drawing.Point(220, 19);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(373, 230);
+            this.chart1.Size = new System.Drawing.Size(368, 317);
             this.chart1.TabIndex = 24;
             this.chart1.Text = "chart1";
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(131, 98);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(20, 189);
+            this.label1.TabIndex = 25;
+            this.label1.Text = "0: \r\n1: \r\n2:\r\n3: \r\n4: \r\n5: \r\n6: \r\n7: \r\n8: \r\n9:  ";
             // 
             // MainWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(600, 393);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button18);
             this.Controls.Add(this.button17);
             this.Controls.Add(this.button16);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.BackPropStepButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button15);
@@ -382,17 +352,17 @@
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.Button1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainWindowForm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.chart1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
         }
+
+        private System.Windows.Forms.Label label1;
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
 
@@ -409,10 +379,6 @@
 
         private System.Windows.Forms.Label label4;
 
-        private System.Windows.Forms.Label label3;
-
-        private System.Windows.Forms.TextBox textBox1;
-
         private System.Windows.Forms.Button BackPropStepButton;
 
         private System.Windows.Forms.Label label2;
@@ -420,7 +386,6 @@
         #endregion
 
         private System.Windows.Forms.Button Button1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
