@@ -10,9 +10,10 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
     public class Model
     {
         public Topology.Topology Topology { get; }
-        public List<Layer> Layers { get;  } = new List<Layer>();
-        
+        public List<Layer> Layers { get; } = new List<Layer>();
+
         public Optimizer Optimizer { get; internal set; }
+        private static Random rng = new Random(); 
 
         public Model(Topology.Topology topology, Optimizer optimizer)
         {
@@ -24,10 +25,23 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
             CreateOutputLayer();
         }
 
+        private List<T> Shuffle<T>(List<T> list)  
+        {
+            int n = list.Count;  
+            while (n > 1) {  
+                n--;
+                int k = rng.Next(n + 1);
+                (list[k], list[n]) = (list[n], list[k]);
+            }
+            return list;
+        }
+
         public double Fit(Dataset dataset)
         {
             var error = 0d;
 
+            Shuffle<Tuple<List<double>, List<double>>>(dataset.Samples);
+            
             foreach (var sample in dataset.Samples)
             {
                 error += BackProp(sample.Item2, sample.Item1);

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using NeuralDigitRecognizer.Neural.Core;
 using NeuralDigitRecognizer.Neural.Core.Model;
 using NeuralDigitRecognizer.Neural.Core.Model.Topology;
@@ -238,8 +240,8 @@ namespace NeuralDigitRecognizer
                 _buttons[buttonIndex].BackColor = Color.FromArgb(239, 253, 255);
             }
 
-            var prediction = _model.FeedForward(new List<double>(_buttonsState)).Select(value=>Math.Round(value, 4));
-            label2.Text = String.Join(Environment.NewLine, prediction);
+            var prediction = _model.FeedForward(new List<double>(_buttonsState));
+            label2.Text = String.Join(Environment.NewLine, prediction.Select(value => Math.Round(value, 4)));
 
         }
 
@@ -296,6 +298,114 @@ namespace NeuralDigitRecognizer
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             throw new System.NotImplementedException();
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            Export();
+        }
+
+        // private void ExportAllWeights()
+        // {
+        //     var path = "D:\\CSharpNeuralNetworks\\kubsu-neural-digit-recognizer\\weights.xml";
+        //     System.IO.FileStream file = System.IO.File.Create(path);
+        //     foreach (var layer in _model.Layers)
+        //     {
+        //         System.Xml.Serialization.XmlSerializer writer =
+        //             new System.Xml.Serialization.XmlSerializer(layer.WeightsMatrix.GetType());
+        //         writer.Serialize(file, layer.WeightsMatrix);
+        //     }
+        //
+        //     file.Close();
+        // }
+
+        // private void ExportAllWeights()
+        // {
+        //     var path = "D:\\CSharpNeuralNetworks\\kubsu-neural-digit-recognizer\\weights.json";
+        //     string json;
+        //     foreach (var modelLayer in _model.Layers)
+        //     {
+        //         json = JsonSerializer.Serialize(modelLayer.WeightsMatrix);
+        //         File.AppendAllText(path, json);
+        //     }
+        // }
+        //
+        // private void ImportAllWeights()
+        // {
+        //     var path = "D:\\CSharpNeuralNetworks\\kubsu-neural-digit-recognizer\\weights.json";
+        //     String weights_str = File.ReadAllText(path);
+        //     // for (int i = 0; i < _model.Layers.Count; i++)
+        //     // {
+        //     //     _model.Layers[i].WeightsMatrix = JsonSerializer.Deserialize<List<List<double>>>(weights_str);
+        //     // }
+        //     var layers = JsonSerializer.Deserialize<Layer>(weights_str);
+        //     Console.WriteLine(layers.ToString());
+        // }
+        private void Export()
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            var filename = saveFileDialog1.FileName;
+            var serializer = new XmlSerializer(typeof(double[][][]));
+            using var fs = new FileStream(filename, FileMode.Create);
+            var w = new double[_model.Layers.Count][][];
+            for (int i = 0; i < _model.Layers.Count; i++)
+            {
+                w[i] = _model.Layers[i].ExportWeights();
+            }
+
+            serializer.Serialize(fs, w);
+            fs.Close();
+        }
+
+        private void Import()
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+
+            var filename = openFileDialog1.FileName;
+            var serializer = new XmlSerializer(typeof(double[][][]));
+            using var fs = new FileStream(filename, FileMode.OpenOrCreate);
+            var inputWeights = (double[][][]) serializer.Deserialize(fs);
+            fs.Close();
+
+            for (var i = 0; i < inputWeights.Length; i++)
+            {
+                for (var i1 = 0; i1 < inputWeights[i].Length; i1++)
+                {
+                    for (var i2 = 0; i2 < inputWeights[i][i1].Length; i2++)
+                    {
+                        _model.Layers[i].WeightsMatrix[i1][i2] = inputWeights[i][i1][i2];
+                    }
+                }
+            }
+            // List<List<List<double>>> networkWeights = new List<List<List<double>>>();
+            // for (int i = 0; i < w.Length; i++)
+            // {
+            //     List<List<double>> l = new List<List<double>>();
+            //     int lCount = 0;
+            //     foreach (var layerW in w)
+            //     {
+            //         foreach (var neuronW in layerW)
+            //         {
+            //             l[lCount] = neuronW.ToList();
+            //         }
+            //
+            //         lCount++;
+            //     }
+            //
+            //     networkWeights[i] = l;
+            //     _model.Layers[i].WeightsMatrix = networkWeights[i];
+            // }
+        }
+
+        private void button18_Click_1(object sender, EventArgs e)
+        {
+            Import();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
         }
     }
 }

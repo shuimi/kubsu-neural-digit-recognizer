@@ -14,7 +14,7 @@ namespace NeuralDigitRecognizer.Neural.Core
         public List<double> Corrections { get; internal set; }
         public int InputDimension => Weights?.Count ?? 0;
         
-        public List<double> Inputs { get; private set; }
+        public List<double> Inputs { get; set; }
         public double Output { get; private set; }
         
         public double InducedField { get; private set; }
