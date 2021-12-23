@@ -283,14 +283,14 @@ namespace NeuralDigitRecognizer
         {
             for (int i = 0; i < 100000; i++)
             {
-                var loss = Math.Round(_model.Fit(_dataset), 8);
+                var loss = _model.Fit(_dataset);
 
                 if (i % 10 == 0)
                 {
                     chart1.Series[0].Points.AddXY(i, loss);
                 }
 
-                label4.Text = loss.ToString(CultureInfo.InvariantCulture);
+                label4.Text = Math.Round(loss, 8).ToString(CultureInfo.InvariantCulture);
                 if (loss < 0.0001) break;
             }
         }

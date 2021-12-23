@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace NeuralDigitRecognizer.Neural.Core.Layers.Base
 {
@@ -40,12 +35,6 @@ namespace NeuralDigitRecognizer.Neural.Core.Layers.Base
         public List<double> Signals()
         {
             return Neurons.Select(neuron => neuron.Output).ToList();
-        }
-
-        public void LoadWeights(List<List<double>> weights)
-        {
-            //TODO: implement
-            WeightsMatrix = weights;
         }
 
         public double[][] ExportWeights()

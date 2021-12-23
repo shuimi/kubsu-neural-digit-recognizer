@@ -39,15 +39,49 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
         public double Fit(Dataset dataset)
         {
             var error = 0d;
+            var count = 0;
 
-            Shuffle<Tuple<List<double>, List<double>>>(dataset.Samples);
+            Shuffle(dataset.Samples);
             
-            foreach (var sample in dataset.Samples)
+            foreach (var (item1, item2) in dataset.Samples)
             {
-                error += BackProp(sample.Item2, sample.Item1);
+                error += BackProp(item2, item1);
+                count++;
             }
 
             return error;
+        }
+
+        private void CheckDimensionEquality(List<double> prediction, List<double> expectation)
+        {
+            if (prediction.Count != expectation.Count)
+            {
+                throw new Exception($"Prediction and expectation dimensions is not equal: " +
+                                    $"got {prediction.Count} and {expectation.Count}");
+            }
+        }
+        
+        private double MeanAbsoluteError(List<double> prediction, List<double> expectation)
+        {
+            CheckDimensionEquality(prediction, expectation);
+            
+            var squaresSum = prediction.Select((val, index) => Math.Abs(val - expectation[index])).Sum();
+
+            return squaresSum / prediction.Count;
+        }
+        
+        private double MeanSquaredError(List<double> prediction, List<double> expectation)
+        {
+            CheckDimensionEquality(prediction, expectation);
+
+            var squaresSum = prediction.Select((val, index) => Math.Pow(val - expectation[index], 2)).Sum();
+
+            return squaresSum / prediction.Count;
+        }
+        
+        private double RootMeanSquaredError(List<double> prediction, List<double> expectation)
+        {
+            return Math.Sqrt(MeanSquaredError(prediction, expectation));
         }
 
         public double BackProp(List<double> expectation, List<double> inputs)
@@ -80,21 +114,9 @@ namespace NeuralDigitRecognizer.Neural.Core.Model
                 }
             }
             
-            return Loss(prediction, expectation);
+            return MeanAbsoluteError(prediction, expectation);
         }
-        
-        private double Loss(List<double> prediction, List<double> expectation)
-        {
-            if (prediction.Count != expectation.Count)
-            {
-                throw new Exception($"Prediction and expectation dimensions is not equal: " +
-                                    $"got {prediction.Count} and {expectation.Count}");
-            }
-            var sum = prediction.Select((val, index) => Math.Pow(val - expectation[index], 2)).Sum();
 
-            return Math.Sqrt(sum) ;
-        }
-        
         public List<double> FeedForward(List<double> inputSignals)
         {
             if (inputSignals.Count != Layers.First().LayerSize)
