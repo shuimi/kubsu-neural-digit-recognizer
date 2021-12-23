@@ -284,6 +284,12 @@ namespace NeuralDigitRecognizer
             for (int i = 0; i < 100000; i++)
             {
                 var loss = Math.Round(_model.Fit(_dataset), 8);
+
+                if (i % 10 == 0)
+                {
+                    chart1.Series[0].Points.AddXY(i, loss);
+                }
+
                 label4.Text = loss.ToString(CultureInfo.InvariantCulture);
                 if (loss < 0.0001) break;
             }
@@ -405,6 +411,10 @@ namespace NeuralDigitRecognizer
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void chart1_Click(object sender, EventArgs e)
         {
         }
     }
